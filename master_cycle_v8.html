@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MASTER CYCLE MAP 2023–2030</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #f4f1ec;
+  --bg2:     #faf8f5;
+  --bg3:     #edeae3;
+  --surface: #ffffff;
+  --border:  #ddd9d0;
+  --border2: #c8c3b8;
+  --text:    #1a1714;
+  --muted:   #7a7368;
+  --soft:    #9e9890;
+
+  --c1: #1a6b8a;   /* AI Infra – steel blue */
+  --c2: #6b3fa0;   /* AI SW HW – purple */
+  --c3: #1f7a4f;   /* 유동성 – forest */
+  --c4: #a05a1a;   /* 유동성 후반 – amber */
+  --c5: #b02020;   /* 방산 – crimson */
+  --c6: #a0347a;   /* 바이오 – rose */
+  --c7: #2d5fa0;   /* 신기술 – cobalt */
+  --c8: #2a4a2a;   /* 미국 – dark green */
+
+  --signal-red:    #c0392b;
+  --signal-orange: #e67e22;
+  --signal-yellow: #f1c40f;
+  --signal-green:  #27ae60;
+  --signal-blue:   #2980b9;
+  --signal-gray:   #95a5a6;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+  padding: 20px 32px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.title-block h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  letter-spacing: 1px;
+  color: var(--text);
+  line-height: 1;
+}
+.title-block .sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Signal Button */
+.signal-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #1a1714 0%, #2d2520 100%);
+  color: var(--bg);
+  border: 2px solid var(--signal-orange);
+  border-radius: 8px;
+  padding: 8px 16px 8px 8px;
+  font-family: 'DM Mono', monospace;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(230, 126, 34, 0.25);
+}
+.signal-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(230, 126, 34, 0.4);
+}
+.signal-level-num {
+  width: 36px; height: 36px;
+  border-radius: 6px;
+  background: var(--signal-orange);
+  color: #fff;
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  animation: signalPulse 2s ease-in-out infinite;
+}
+@keyframes signalPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.6); }
+  50% { box-shadow: 0 0 0 8px rgba(230, 126, 34, 0); }
+}
+.signal-btn-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.signal-btn-label {
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  font-weight: 500;
+  color: var(--bg);
+}
+.signal-btn-status {
+  font-size: 9px;
+  letter-spacing: 0.8px;
+  color: var(--signal-orange);
+  font-weight: 700;
+}
+.signal-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--signal-orange);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.5; transform:scale(1.3); }
+}
+
+/* ── NAV TABS ── */
+.nav-tabs {
+  display: flex;
+  gap: 2px;
+  margin-top: 0;
+  padding-top: 10px;
+  overflow-x: auto;
+}
+.tab {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  padding: 8px 14px;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid transparent;
+  border-bottom: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--muted);
+  white-space: nowrap;
+  background: transparent;
+}
+.tab:hover { color: var(--text); background: var(--bg3); }
+.tab.active {
+  background: var(--bg);
+  color: var(--text);
+  border-color: var(--border);
+  border-bottom-color: var(--bg);
+  font-weight: 500;
+  margin-bottom: -2px;
+  padding-bottom: 10px;
+}
+
+/* ── MAIN ── */
+.main { padding: 28px 32px 80px; }
+
+/* ── SECTION ── */
+.section { margin-bottom: 28px; display: none; }
+.section.visible { display: block; }
+
+/* ── SECTION HEADER (accordion) ── */
+.section-header {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  cursor: pointer;
+  user-select: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  transition: box-shadow 0.15s;
+}
+.section-header:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
+
+.sec-accent {
+  width: 6px;
+  flex-shrink: 0;
+}
+
+.sec-header-body {
+  flex: 1;
+  padding: 14px 18px;
+}
+
+.sec-header-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sec-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  opacity: 0.18;
+  line-height: 1;
+  min-width: 32px;
+}
+
+.sec-title-block h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  color: var(--text);
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.sec-title-block .sec-counts {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.sec-count-pill {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  padding: 3px 9px;
+  border-radius: 11px;
+  color: var(--muted);
+}
+.sec-count-pill .num {
+  color: var(--text);
+  font-weight: 700;
+  margin-left: 3px;
+}
+.sec-count-pill.a-grade {
+  background: #fff5f3;
+  border-color: #c0392b;
+  color: #c0392b;
+}
+.sec-count-pill.a-grade .num {
+  color: #c0392b;
+  font-weight: 700;
+}
+.sec-title-block .sec-eng {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--soft);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+/* ── CYCLE TIMING STRIP ── */
+.cycle-timing {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.timing-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.timing-chip .t-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--soft);
+}
+.timing-chip .t-val {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.bottleneck-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid currentColor;
+  font-weight: 500;
+}
+
+.sec-collapse {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  color: var(--soft);
+  font-size: 12px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.section.collapsed .sec-collapse { transform: rotate(-90deg); }
+
+/* ── GROUP GRID ── */
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+  overflow: hidden;
+  max-height: 9999px;
+  transition: max-height 0.3s ease;
+}
+.section.collapsed .groups { max-height: 0; overflow: hidden; }
+
+/* ── GROUP CARD ── */
+.group {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+.group:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+.group.hidden { display: none; }
+
+.group-label {
+  padding: 9px 13px 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+}
+.group-label::before {
+  content: '';
+  width: 3px;
+  height: 11px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.group-label-text { flex: 1; }
+.group-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--bg);
+  padding: 2px 7px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  letter-spacing: 0;
+}
+.group-count .a-num {
+  color: #c0392b;
+  font-weight: 700;
+}
+
+.stocks { padding: 7px 8px 9px; display: flex; flex-direction: column; gap: 2px; }
+
+.stock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.1s;
+  gap: 8px;
+}
+.stock:hover { background: var(--bg); }
+.stock-name {
+  font-size: 12px;
+  color: var(--text);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stock-code {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--soft);
+  flex-shrink: 0;
+}
+.stock.us .stock-code { color: var(--c7); }
+
+/* A급 종목 강조 - 빨간색 + 굵게 */
+.stock.grade-a .stock-name {
+  color: #c0392b;
+  font-weight: 700;
+}
+.stock.grade-a .stock-code {
+  color: #c0392b;
+  font-weight: 600;
+}
+.stock.grade-a {
+  background: #fff5f3;
+}
+.stock.grade-a:hover { background: #ffe8e3; }
+
+/* ── SECTION COLORS ── */
+.sec-1 .sec-accent { background: var(--c1); }
+.sec-1 .sec-num,.sec-1 .sec-title-block h2 { color: var(--c1); opacity:1; }
+.sec-1 .group-label::before { background: var(--c1); }
+.sec-1 .group-label { color: var(--c1); }
+.sec-1 .bottleneck-tag { color: var(--c1); }
+
+.sec-2 .sec-accent { background: var(--c2); }
+.sec-2 .sec-num,.sec-2 .sec-title-block h2 { color: var(--c2); opacity:1; }
+.sec-2 .group-label::before { background: var(--c2); }
+.sec-2 .group-label { color: var(--c2); }
+.sec-2 .bottleneck-tag { color: var(--c2); }
+
+.sec-3 .sec-accent { background: var(--c3); }
+.sec-3 .sec-num,.sec-3 .sec-title-block h2 { color: var(--c3); opacity:1; }
+.sec-3 .group-label::before { background: var(--c3); }
+.sec-3 .group-label { color: var(--c3); }
+.sec-3 .bottleneck-tag { color: var(--c3); }
+
+.sec-4 .sec-accent { background: var(--c4); }
+.sec-4 .sec-num,.sec-4 .sec-title-block h2 { color: var(--c4); opacity:1; }
+.sec-4 .group-label::before { background: var(--c4); }
+.sec-4 .group-label { color: var(--c4); }
+.sec-4 .bottleneck-tag { color: var(--c4); }
+
+.sec-5 .sec-accent { background: var(--c5); }
+.sec-5 .sec-num,.sec-5 .sec-title-block h2 { color: var(--c5); opacity:1; }
+.sec-5 .group-label::before { background: var(--c5); }
+.sec-5 .group-label { color: var(--c5); }
+.sec-5 .bottleneck-tag { color: var(--c5); }
+
+.sec-6 .sec-accent { background: var(--c6); }
+.sec-6 .sec-num,.sec-6 .sec-title-block h2 { color: var(--c6); opacity:1; }
+.sec-6 .group-label::before { background: var(--c6); }
+.sec-6 .group-label { color: var(--c6); }
+.sec-6 .bottleneck-tag { color: var(--c6); }
+
+.sec-7 .sec-accent { background: var(--c7); }
+.sec-7 .sec-num,.sec-7 .sec-title-block h2 { color: var(--c7); opacity:1; }
+.sec-7 .group-label::before { background: var(--c7); }
+.sec-7 .group-label { color: var(--c7); }
+.sec-7 .bottleneck-tag { color: var(--c7); }
+
+.sec-8 .sec-accent { background: var(--c8); }
+.sec-8 .sec-num,.sec-8 .sec-title-block h2 { color: var(--c8); opacity:1; }
+.sec-8 .group-label::before { background: var(--c8); }
+.sec-8 .group-label { color: var(--c8); }
+.sec-8 .bottleneck-tag { color: var(--c8); }
+
+/* ── SIGNAL MODAL ── */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,8,6,0.45);
+  z-index: 999;
+  backdrop-filter: blur(3px);
+}
+.overlay.open { display: block; }
+
+.signal-panel {
+  position: fixed;
+  top: 0;
+  right: -600px;
+  width: 560px;
+  max-width: 96vw;
+  height: 100vh;
+  background: var(--surface);
+  border-left: 2px solid var(--border);
+  z-index: 1000;
+  overflow-y: auto;
+  transition: right 0.3s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  flex-direction: column;
+}
+.signal-panel.open { right: 0; }
+
+.sp-header {
+  padding: 24px 24px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+.sp-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--text);
+}
+.sp-header .sp-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+  letter-spacing: 1px;
+}
+.sp-close {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.sp-close:hover { background: var(--bg); }
+
+.sp-body { padding: 20px 24px; flex: 1; }
+
+/* Signal Card */
+.signal-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.signal-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+
+.signal-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.signal-title-block { flex: 1; }
+.signal-title-block .st { font-weight: 700; font-size: 13px; color: var(--text); }
+.signal-title-block .ss { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+
+.signal-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 3px 9px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.lv-badge {
+  font-family: 'DM Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 8px 4px 4px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+}
+.lv-badge .lv-circle {
+  width: 22px; height: 22px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+.lv-badge.lv1 { background: #eafaf1; color: var(--signal-green); }
+.lv-badge.lv1 .lv-circle { background: var(--signal-green); }
+.lv-badge.lv2 { background: #eaf4fb; color: var(--signal-blue); }
+.lv-badge.lv2 .lv-circle { background: var(--signal-blue); }
+.lv-badge.lv3 { background: #fef9e7; color: #b7950b; }
+.lv-badge.lv3 .lv-circle { background: var(--signal-yellow); color: #1a1714; }
+.lv-badge.lv4 { background: #fef3e6; color: var(--signal-orange); }
+.lv-badge.lv4 .lv-circle { background: var(--signal-orange); }
+.lv-badge.lv5 { background: #fdecea; color: var(--signal-red); }
+.lv-badge.lv5 .lv-circle { background: var(--signal-red); }
+
+.signal-card-body { padding: 13px 16px; }
+
+.signal-items { display: flex; flex-direction: column; gap: 8px; }
+
+.signal-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.si-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.si-text { font-size: 12px; color: var(--text); line-height: 1.6; }
+.si-text b { font-weight: 600; }
+.si-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+.signal-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
+
+/* Status colors */
+.stat-red    { color: var(--signal-red); }
+.stat-orange { color: var(--signal-orange); }
+.stat-yellow { color: var(--signal-yellow); background: #fef9e7; }
+.stat-green  { color: var(--signal-green); }
+.stat-blue   { color: var(--signal-blue); }
+.stat-gray   { color: var(--signal-gray); }
+
+.bg-red    { background: #fdecea; }
+.bg-orange { background: #fef3e6; }
+.bg-yellow { background: #fef9e7; }
+.bg-green  { background: #eafaf1; }
+.bg-blue   { background: #eaf4fb; }
+.bg-gray   { background: #f4f6f7; }
+
+/* badge colors */
+.badge-red    { background: #fdecea; color: var(--signal-red); }
+.badge-orange { background: #fef3e6; color: var(--signal-orange); }
+.badge-yellow { background: #fef9e7; color: #b7950b; }
+.badge-green  { background: #eafaf1; color: var(--signal-green); }
+.badge-blue   { background: #eaf4fb; color: var(--signal-blue); }
+.badge-gray   { background: #f4f6f7; color: var(--signal-gray); }
+
+/* Overall meter */
+.overall-meter {
+  background: linear-gradient(135deg, #faf8f5 0%, #f4f1ec 100%);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+.om-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.om-level-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.om-level-cell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 4px 8px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  position: relative;
+  transition: all 0.2s;
+}
+.om-level-cell .lvl-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--soft);
+}
+.om-level-cell .lvl-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.om-level-cell.active {
+  border-width: 2.5px;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(230, 126, 34, 0.25);
+}
+.om-level-cell.active .lvl-num,
+.om-level-cell.active .lvl-name {
+  color: #fff;
+}
+.om-level-cell.active .lvl-name { font-weight: 700; }
+.om-level-cell.active.lv-1 { background: var(--signal-green); border-color: var(--signal-green); }
+.om-level-cell.active.lv-2 { background: var(--signal-blue); border-color: var(--signal-blue); }
+.om-level-cell.active.lv-3 { background: var(--signal-yellow); border-color: var(--signal-yellow); }
+.om-level-cell.active.lv-3 .lvl-num,
+.om-level-cell.active.lv-3 .lvl-name { color: #1a1714; }
+.om-level-cell.active.lv-4 { background: var(--signal-orange); border-color: var(--signal-orange); }
+.om-level-cell.active.lv-5 { background: var(--signal-red); border-color: var(--signal-red); }
+
+.om-status {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border-left: 4px solid var(--signal-orange);
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--signal-orange);
+}
+.om-status .om-status-detail {
+  display: block;
+  margin-top: 5px;
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.stats-row {
+  display: flex; gap: 18px; flex-wrap: wrap;
+  padding: 8px 0 4px;
+}
+.stat-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+.stat-pill span { color: var(--text); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- SIGNAL OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSignal()"></div>
+
+<!-- SIGNAL PANEL -->
+<div class="signal-panel" id="signalPanel">
+  <div class="sp-header">
+    <div>
+      <h2>시장 조정 시그널</h2>
+      <div class="sp-sub">MARKET ADJUSTMENT SIGNAL MONITOR · 2026.05</div>
+    </div>
+    <button class="sp-close" onclick="closeSignal()">✕</button>
+  </div>
+
+  <div class="sp-body">
+
+    <!-- Overall - 5 Level System -->
+    <div class="overall-meter">
+      <div class="om-label">종합 리스크 레벨 · MARKET RISK LEVEL (1–5)</div>
+      <div class="om-level-row">
+        <div class="om-level-cell lv-1"><div class="lvl-num">1</div><div class="lvl-name">안전</div></div>
+        <div class="om-level-cell lv-2"><div class="lvl-num">2</div><div class="lvl-name">관찰</div></div>
+        <div class="om-level-cell lv-3 active"><div class="lvl-num">3</div><div class="lvl-name">주의</div></div>
+        <div class="om-level-cell lv-4"><div class="lvl-num">4</div><div class="lvl-name">경고</div></div>
+        <div class="om-level-cell lv-5"><div class="lvl-num">5</div><div class="lvl-name">위험</div></div>
+      </div>
+      <div class="om-status">
+        ⚠ LEVEL 3 · 주의 단계
+        <span class="om-status-detail">Phase 1 후반 / Phase 2 초입 경계. 3개월 내 조정 가능성 높음. Sell in May 진입 구간 + 빅테크 CAPEX 가이던스 변곡점.</span>
+      </div>
+    </div>
+
+    <!-- 1. 지정학 -->
+    <div class="signal-card">
+      <div class="signal-card-header">
+        <div class="signal-icon bg-red">🌏</div>
+        <div class="signal-title-block">
+          <div class="st">지정학 리스크</div>
+          <div class="ss">GEOPOLITICAL RISK</div>
+        </div>
+        <div class="lv-badge lv4"><span class="lv-circle">4</span>경고</div>
+      </div>
+      <div class="signal-card-body">
+        <div class="signal-items">
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-red)"></div>
+            <div>
+              <div class="si-text"><b>미중 반도체 수출통제 재확대</b> — AI칩·HBM 공급망 직격. Phase 1 종목 변동성 확대 구간.</div>
+              <div class="si-meta">TRIGGER → 삼성·SK하이닉스·한미반도체 등 수출 의존 종목 즉시 반응</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-orange)"></div>
+            <div>
+              <div class="si-text"><b>러-우 / 중동 분쟁 확전 리스크</b> — 원자재·에너지 가격 급등 → 방산 수혜, 소비 억압.</div>
+              <div class="si-meta">TRIGGER → 유가 $100+ / LNG 급등 시 에너지·방산 재편입 시그널</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-orange)"></div>
+            <div>
+              <div class="si-text"><b>대만해협 긴장 고조</b> — 글로벌 공급망 최대 리스크. 발생 시 전 섹터 일시 충격 후 방산 독주.</div>
+              <div class="si-meta">TRIGGER → 방산 섹션 독립 상승 / AI 인프라 일시 하락 후 회복</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-yellow)"></div>
+            <div>
+              <div class="si-text"><b>한국 정치 리스크</b> — 국내 정책 불확실성, 원화 약세 압력. 외국인 수급 이탈 가속기.</div>
+              <div class="si-meta">TRIGGER → 원/달러 1450+ 안착 / 외인 순매도 연속 3주 이상</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 유동성 -->
+    <div class="signal-card">
+      <div class="signal-card-header">
+        <div class="signal-icon bg-blue">💧</div>
+        <div class="signal-title-block">
+          <div class="st">유동성 시그널</div>
+          <div class="ss">LIQUIDITY CONDITIONS</div>
+        </div>
+        <div class="lv-badge lv3"><span class="lv-circle">3</span>주의</div>
+      </div>
+      <div class="signal-card-body">
+        <div class="signal-items">
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-blue)"></div>
+            <div>
+              <div class="si-text"><b>연준 금리 인하 사이클 개시 여부</b> — 첫 인하 발표 시 유동성 확산 섹션(증권·은행·건설) 선행 반응.</div>
+              <div class="si-meta">WATCH → Fed Funds Futures / SOFR 스프레드 방향</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-orange)"></div>
+            <div>
+              <div class="si-text"><b>M2 증가율 둔화</b> — 글로벌 M2 YoY 하락 전환 시 위험자산 전반 수급 감소. 방어 섹터 로테이션 시그널.</div>
+              <div class="si-meta">TRIGGER → 미국 M2 YoY -2% 이하</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-yellow)"></div>
+            <div>
+              <div class="si-text"><b>크레딧 스프레드 확대</b> — HY 스프레드 400bp+ 시 기업 자금조달 경색. AI 인프라 CAPEX 속도 조절 신호.</div>
+              <div class="si-meta">WATCH → ICE BofA HY Index OAS</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-green)"></div>
+            <div>
+              <div class="si-text"><b>달러 인덱스(DXY) 방향</b> — DXY 하락 시 신흥국·한국 수급 개선. 상승 지속 시 외인 이탈 압력.</div>
+              <div class="si-meta">TRIGGER → DXY 107+ 안착 시 한국시장 외인 매도 가속</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 금리 -->
+    <div class="signal-card">
+      <div class="signal-card-header">
+        <div class="signal-icon bg-orange">📈</div>
+        <div class="signal-title-block">
+          <div class="st">금리 / 채권 시그널</div>
+          <div class="ss">RATES & BOND MARKET</div>
+        </div>
+        <div class="lv-badge lv4"><span class="lv-circle">4</span>경고</div>
+      </div>
+      <div class="signal-card-body">
+        <div class="signal-items">
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-red)"></div>
+            <div>
+              <div class="si-text"><b>미국 10년물 금리 급등</b> — 4.8%+ 돌파·안착 시 성장주·기술주 밸류에이션 압박. AI SW 섹션 직격.</div>
+              <div class="si-meta">TRIGGER → 10Y UST 4.8% 돌파 / 5% 테스트</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-orange)"></div>
+            <div>
+              <div class="si-text"><b>장단기 금리 역전 해소 속도</b> — 역전 해소(정상화) 초기는 경기침체 선행 신호로 작용. 유동성 후반 방어 섹터 주목 시점.</div>
+              <div class="si-meta">WATCH → 2Y-10Y 스프레드 방향</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-yellow)"></div>
+            <div>
+              <div class="si-text"><b>한국 기준금리 인하 사이클</b> — 인하 시 국내 유동성 확산 촉진. 건설·증권 선행, 소비 후행.</div>
+              <div class="si-meta">WATCH → 한국은행 통방 결과 / CPI 방향</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 실적 시즌 -->
+    <div class="signal-card">
+      <div class="signal-card-header">
+        <div class="signal-icon bg-green">📊</div>
+        <div class="signal-title-block">
+          <div class="st">실적 시즌</div>
+          <div class="ss">EARNINGS SEASON RISK</div>
+        </div>
+        <div class="lv-badge lv3"><span class="lv-circle">3</span>주의</div>
+      </div>
+      <div class="signal-card-body">
+        <div class="signal-items">
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-orange)"></div>
+            <div>
+              <div class="si-text"><b>빅테크 CAPEX 가이던스</b> — MSFT·AMZN·META·GOOGL AI 투자 축소 발언 시 AI 인프라 전 섹터 조정 트리거. 반대로 상향 시 Phase 2 가속.</div>
+              <div class="si-meta">TRIGGER → 분기 실적발표 직후 CAPEX 전망치 변화</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-yellow)"></div>
+            <div>
+              <div class="si-text"><b>삼성전자·SK하이닉스 HBM 출하 실적</b> — HBM 매출 비중 상승 확인 시 Phase 1 연장. 재고 경고 시 조정.</div>
+              <div class="si-meta">TRIGGER → HBM 매출 비중 40%+ / 재고 증가 경고</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-green)"></div>
+            <div>
+              <div class="si-text"><b>NVIDIA 분기 실적·가이던스</b> — AI 수요 선행지표. Blackwell 출하량이 시장 전망 대비 상/하회 여부가 사이클 속도 결정.</div>
+              <div class="si-meta">WATCH → 매 분기 실적발표 / Data Center 매출 성장률</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 계절성 -->
+    <div class="signal-card">
+      <div class="signal-card-header">
+        <div class="signal-icon bg-yellow">🗓</div>
+        <div class="signal-title-block">
+          <div class="st">계절성 패턴</div>
+          <div class="ss">SEASONALITY</div>
+        </div>
+        <div class="lv-badge lv4"><span class="lv-circle">4</span>경고</div>
+      </div>
+      <div class="signal-card-body">
+        <div class="signal-items">
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-orange)"></div>
+            <div>
+              <div class="si-text"><b>Sell in May 패턴 (4–5월)</b> — 현재 구간. 5월 전후 수급 약화 및 포지션 청산 압력. 3개월 조정 진입 가능성.</div>
+              <div class="si-meta">현재 위치 → 2026년 4월 말 = Sell in May 직전 경계</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-yellow)"></div>
+            <div>
+              <div class="si-text"><b>서머 랠리 가능성 (7–8월)</b> — 조정 후 반등 구간. 보통 7월 중순부터 수급 회복. Phase 2 종목 재진입 시점.</div>
+              <div class="si-meta">WATCH → 7월 FOMC 결과 / 주요국 PMI 방향</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-blue)"></div>
+            <div>
+              <div class="si-text"><b>연말 랠리 (10–12월)</b> — 미국 대선 이후 사이클·방산 수혜 확정 구간. 연말 포트폴리오 리밸런싱 유입.</div>
+              <div class="si-meta">WATCH → 11월 이후 수급 패턴 / 세금 이벤트</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-gray)"></div>
+            <div>
+              <div class="si-text"><b>한국 반기말 기관 수급 (6월·12월)</b> — 기관 리밸런싱으로 단기 변동성. 중소형 테마주 수급 이탈 집중 구간.</div>
+              <div class="si-meta">WATCH → 반기말 2주 전부터 기관 매도 경향</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. 수급/기술적 -->
+    <div class="signal-card">
+      <div class="signal-card-header">
+        <div class="signal-icon bg-gray">📉</div>
+        <div class="signal-title-block">
+          <div class="st">수급·기술적 시그널</div>
+          <div class="ss">FLOW & TECHNICAL</div>
+        </div>
+        <div class="lv-badge lv3"><span class="lv-circle">3</span>주의</div>
+      </div>
+      <div class="signal-card-body">
+        <div class="signal-items">
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-red)"></div>
+            <div>
+              <div class="si-text"><b>외국인 연속 순매도</b> — 코스피 외국인 3주 이상 연속 순매도 시 지수 지지 붕괴 가능. 방어 섹터 이동 시그널.</div>
+              <div class="si-meta">TRIGGER → 외인 누적 순매도 3조 이상 / 3주 연속</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-orange)"></div>
+            <div>
+              <div class="si-text"><b>VIX 급등</b> — VIX 30+ 시 패닉 구간. 이 구간은 역설적으로 Phase 1·2 핵심주 매집 기회.</div>
+              <div class="si-meta">TRIGGER → VIX 25 주의 / 30 진입 시 역발상 매집 검토</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-yellow)"></div>
+            <div>
+              <div class="si-text"><b>코스피 이동평균 붕괴</b> — 120일선 이탈·안착 시 추세 전환 확인. 리딩주 1·2 교체 패턴 동반 확인.</div>
+              <div class="si-meta">WATCH → KOSPI 120MA / 240MA 이격도</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-yellow)"></div>
+            <div>
+              <div class="si-text"><b>리딩주 1·2 교체 패턴</b> — 리딩주 1 고점 이후 리딩주 2 강세 전환 시 사이클 후반 진입 신호. 소부장 1–2일 후행 패턴 확인.</div>
+              <div class="si-meta">TRIGGER → 리딩주 1 거래량 급감 + 리딩주 2 신고가</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. 매크로 경기 -->
+    <div class="signal-card">
+      <div class="signal-card-header">
+        <div class="signal-icon bg-blue">🌐</div>
+        <div class="signal-title-block">
+          <div class="st">매크로 경기 시그널</div>
+          <div class="ss">MACRO CYCLE</div>
+        </div>
+        <div class="lv-badge lv2"><span class="lv-circle">2</span>관찰</div>
+      </div>
+      <div class="signal-card-body">
+        <div class="signal-items">
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-orange)"></div>
+            <div>
+              <div class="si-text"><b>미국 경기침체 여부</b> — 2분기 연속 GDP 역성장 공식화 시 전 사이클 재조정. AI 인프라 CAPEX만 선별 방어.</div>
+              <div class="si-meta">WATCH → GDP 성장률 / ISM 제조업 PMI 50선</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-yellow)"></div>
+            <div>
+              <div class="si-text"><b>중국 경기 회복 속도</b> — 중국 PMI 개선·부양책 확대 시 소재·산업재·조선 섹션 수혜. 한국 수출 연동.</div>
+              <div class="si-meta">WATCH → 중국 Caixin PMI / 부동산 투자 지표</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-green)"></div>
+            <div>
+              <div class="si-text"><b>AI 투자 사이클 지속성 확인</b> — 빅테크 CAPEX 가이던스 유지·상향이 핵심. 이게 꺾이지 않는 한 슈퍼사이클 진행 중.</div>
+              <div class="si-meta">CORE → 2026–2027년 글로벌 AI CAPEX $1T 레이스 지속 여부</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. 기타 이벤트 -->
+    <div class="signal-card">
+      <div class="signal-card-header">
+        <div class="signal-icon bg-gray">⚡</div>
+        <div class="signal-title-block">
+          <div class="st">기타 이벤트 리스크</div>
+          <div class="ss">EVENT RISK</div>
+        </div>
+        <div class="lv-badge lv2"><span class="lv-circle">2</span>관찰</div>
+      </div>
+      <div class="signal-card-body">
+        <div class="signal-items">
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-gray)"></div>
+            <div>
+              <div class="si-text"><b>미국 관세 정책 변동</b> — 반도체·전기차·배터리 관세 조정 시 공급망 재편 가속. 한국 수출 직격 가능.</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-gray)"></div>
+            <div>
+              <div class="si-text"><b>AI 규제 강화 (EU AI Act 등)</b> — AI SW·플랫폼 섹션 밸류에이션 재조정 트리거. 단기 노이즈, 중기 영향 제한적.</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-gray)"></div>
+            <div>
+              <div class="si-text"><b>전력망·에너지 공급 병목</b> — AI DC 전력 수요 폭증에 전력망 공급이 못 따라올 경우 Phase 2 체류 기간 연장.</div>
+            </div>
+          </div>
+          <div class="signal-divider"></div>
+          <div class="signal-item">
+            <div class="si-dot" style="background:var(--signal-gray)"></div>
+            <div>
+              <div class="si-text"><b>블랙스완 이벤트</b> — 팬데믹·금융위기 수준 충격. 전 사이클 리셋 후 재점화 패턴. AI 인프라가 가장 빠른 회복 섹터.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /sp-body -->
+</div><!-- /signal-panel -->
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="title-block">
+      <h1>Master Cycle Map</h1>
+      <div class="sub">2023–2030 · AI Ubiquitous Transition · KR + US</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <div class="stats-row">
+        <div class="stat-pill">종목 <span id="totalCount">-</span></div>
+        <div class="stat-pill">그룹 <span id="totalGroups">-</span></div>
+        <div class="stat-pill" style="background:#fff5f3;border-color:#c0392b;color:#c0392b;font-weight:700;">A급 <span id="totalAGrade">-</span></div>
+        <div class="stat-pill">KR <span id="krCount">-</span></div>
+        <div class="stat-pill">US <span id="usCount">-</span></div>
+      </div>
+      <button class="signal-btn" id="signalBtn" onclick="openSignal()">
+        <div class="signal-level-num" id="signalLevelNum">3</div>
+        <div class="signal-btn-text">
+          <div class="signal-btn-label">시장 조정 시그널</div>
+          <div class="signal-btn-status" id="signalBtnStatus">LEVEL 3 · 주의</div>
+        </div>
+      </button>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <div class="tab active" data-sec="0">전체</div>
+    <div class="tab" data-sec="1">① AI 인프라</div>
+    <div class="tab" data-sec="2">② AI SW/HW</div>
+    <div class="tab" data-sec="3">③ 유동성 초입·확산</div>
+    <div class="tab" data-sec="4">④ 유동성 후반·방어</div>
+    <div class="tab" data-sec="5">⑤ 지정학·방산·에너지</div>
+    <div class="tab" data-sec="6">⑥ 바이오</div>
+    <div class="tab" data-sec="7">⑦ 신기술</div>
+    <div class="tab" data-sec="8">⑧ 미국</div>
+  </div>
+</div>
+
+<div class="main" id="main"></div>
+
+<script>
+// ── DATA ──
+// ── A급 종목 (2030 핵심 / 글로벌 경쟁력·수출·원천기술·반복 수요·실적 연결성) ──
+// 후보 표현 안 씀. A급으로 통합.
+const A_GRADE = new Set([
+  // AI 반도체 / HBM / 패키징 / 장비
+  "000660","005930","042700","058470","095340",
+  // AI 서버 / 서버 후방 (PCB·MLCC·커넥터·전원부품)
+  "078350","248070","178320","037030",
+  "007660","009150","222800","353200",
+  // 전력 인프라 (변압기·전력기기·송배전·ESS)
+  "267260","298040","010120","062040","103590","033100","000500",
+  // 데이터센터 (코로케이션·냉각·네트워크·광통신)
+  "093320","083450","053080","079940","138080","264450",
+  // AI SW (대기업·플랫폼·IT서비스)
+  "035420","018260","022100","307950","041020","030520","047560",
+  // AI HW (온디바이스·센서·엣지)
+  "054450","394280","080220","396270","424960",
+  // Physical AI (로봇·자율주행·스마트팩토리·의료 AI)
+  "005380","277810","098460","126700","060280","328130",
+  "058610","389500","348340",
+  // 원전 / SMR
+  "034020","105840","457550","083650","094820","046120",
+  // 방산
+  "012450","064350","047810","079550","272210","103140",
+  // 조선 + 조선 후방 소재/기자재
+  "009540","329180","010140","042660","443060",
+  "017960","033500","013030","023160","014620",
+  // 자동차 / 전장 / SDV
+  "000270","012330","204320","018880","015750","010690","200880",
+  // 지정학 - 에너지
+  "010950","096770","078930","267250","018670","017940","112610","009830",
+  // 지정학 - 원자재
+  "010130","006260","005490",
+  "000910","047400","081150","037370",
+  // 바이오
+  "207940","068270","196170","141080","298380","128940","338220","237690",
+  // 우주
+  "099320","211270","189300","451760","462350","474170",
+  // 양자
+  "356680","115500","046970","056360","050890","039560",
+  // 블록체인
+  "041190","003530","094480","064260","203650","042510",
+  // 유동성 초입
+  "039490","006800","071050","105560","055550","086790","000720","006360",
+  // 확산
+  "003490","086280","011200","028670",
+  // 유동성 후반
+  "259960","263750","352820","035900","192820","161890","257720","090430",
+  // 방어
+  "017670","030200","032640","000810","005830","001450","088980",
+  // 미국 메가캡 (글로벌 AI/방산/바이오 리딩)
+  "NVDA","AVGO","MRVL","AMD",
+  "MSFT","AMZN","ORCL",
+  "ETN","GEV","VRT","CEG","VST",
+  "FCX","CCJ","ALB",
+  "LMT","NOC","RTX",
+  "RKLB","ASTS",
+  "PLTR","CRM",
+  "PANW","CRWD",
+  "TSLA","ROK","TER","SYM",
+  "META","GOOGL","NFLX",
+  "COIN","MSTR",
+  "LLY","VRTX","AMGN",
+  "JPM","CAT","GE"
+]);
+
+const CYCLE_INFO = {
+  1: {
+    period: "2023 – 2027 (현재 후반~Phase 2 진입)",
+    bottleneck: "HBM 공급 · 전력망 · 원전 CAPA",
+    bottleneckColor: "var(--c1)",
+    status: "진행 중",
+    desc: "GPU·HBM·서버·패키징·광네트워크 수요 폭증 이후 전력·원전·냉각으로 병목 이동 중. 원전·SMR은 AI DC 전력 공급원으로서 AI 인프라 테마 핵심. 현재 Phase 1 후반 — 전력·원전 Phase 2 병목 구간 진입 대기."
+  },
+  2: {
+    period: "2025 – 2028",
+    bottleneck: "전력·전력망 · AI SW 수익화",
+    bottleneckColor: "var(--c2)",
+    status: "초입 진입 중",
+    desc: "AI 인프라 확장 이후 SW 수익화 레이어 가동. AI 에이전트·온디바이스·로봇 물리 AI 확산. 실적 기반 재평가 시작. 병목은 전력과 SW 수익 모델 검증."
+  },
+  3: {
+    period: "2024 – 2027",
+    bottleneck: "금리 인하 사이클 개시 여부",
+    bottleneckColor: "var(--c3)",
+    status: "대기 중",
+    desc: "금리 인하·유동성 회복 시 자본이 증권→산업재→조선→소재 순으로 흐름. 병목은 연준 피벗 타이밍. 피벗 확정 시 빠른 로테이션."
+  },
+  4: {
+    period: "2027 – 2029",
+    bottleneck: "소비 심리 회복 속도",
+    bottleneckColor: "var(--c4)",
+    status: "미도달",
+    desc: "유동성 사이클 후반부 소비 확산 구간. AI 혜택이 실물경제로 침투하며 엔터·여행·유통 회복. 방어 섹터는 침체 리스크 헷지."
+  },
+  5: {
+    period: "독립 테마 (상시 활성)",
+    bottleneck: "지정학 이벤트 드리븐",
+    bottleneckColor: "var(--c5)",
+    status: "활성 중",
+    desc: "방산·에너지·원자재는 AI 유동성 사이클과 독립적으로 지정학 이벤트에 반응. 러-우·중동·대만 리스크 고조 시 즉각 활성화. 현재 방산 테마 지속 활성. 원전·전력은 AI 인프라 섹션으로 분리."
+  },
+  6: {
+    period: "2025 – 2030",
+    bottleneck: "FDA 승인 · 임상 데이터",
+    bottleneckColor: "var(--c6)",
+    status: "초입",
+    desc: "AI 신약 플랫폼이 임상 효율화 가속. 비만·면역·ADC 파이프라인 이벤트 드리븐. 병목은 임상 데이터와 규제 승인. CDMO는 안정적 수혜."
+  },
+  7: {
+    period: "2026 – 2030 (테마 단계)",
+    bottleneck: "기술 성숙도 · 규제 프레임",
+    bottleneckColor: "var(--c7)",
+    status: "초기 테마",
+    desc: "양자·우주·블록체인은 아직 옵션밸류 단계. 양자는 2027+ 하드웨어 성숙 필요. 우주는 수주 이벤트 드리븐. 크립토는 제도화 속도가 핵심."
+  },
+  8: {
+    period: "2023 – 2030 (선행 지표)",
+    bottleneck: "빅테크 CAPEX 가이던스",
+    bottleneckColor: "var(--c8)",
+    status: "글로벌 리딩",
+    desc: "미국 종목은 글로벌 AI 사이클의 선행 지표. NVDA·MSFT·AMZN CAPEX 방향이 한국 섹터 6–12개월 후행 수요 결정. Eaton·GEV·VRT는 Phase 2 전력 핵심."
+  }
+};
+
+const DATA = [
+  { id:1, title:"AI Infra", desc:"PHASE 1·2 · CHIPS / HBM / SERVER / POWER / NUCLEAR / OPTICAL", groups:[
+    { label:"AI 반도체 : GPU/HBM", stocks:[{name:"삼성전자",code:"005930"},{name:"SK하이닉스",code:"000660"}] },
+    { label:"AI 반도체 : ASIC 디자인하우스", stocks:[{name:"가온칩스",code:"399720"},{name:"에이디테크놀로지",code:"200710"},{name:"오픈엣지테크놀로지",code:"394280"},{name:"퀄리타스반도체",code:"432720"}] },
+    { label:"AI 반도체 : 실리콘/파운드리", stocks:[{name:"DB하이텍",code:"000990"}] },
+    { label:"AI 반도체 : 첨단패키징/기판", stocks:[{name:"한미반도체",code:"042700"},{name:"네패스",code:"033640"},{name:"하나마이크론",code:"067310"},{name:"대덕전자",code:"353200"},{name:"심텍",code:"222800"},{name:"삼성전기",code:"009150"}] },
+    { label:"AI 반도체 : 장비/소재/테스트", stocks:[{name:"HPSP",code:"403870"},{name:"이오테크닉스",code:"039030"},{name:"테크윙",code:"089030"},{name:"ISC",code:"095340"},{name:"리노공업",code:"058470"},{name:"솔브레인",code:"357780"},{name:"티씨케이",code:"064760"}] },
+    { label:"AI 서버 : 서버/ODM/랙/전원부품", stocks:[{name:"한양디지텍",code:"078350"},{name:"솔루엠",code:"248070"},{name:"파워넷",code:"037030"},{name:"서진시스템",code:"178320"}] },
+    { label:"데이터센터 : 하이퍼스케일", stocks:[{name:"삼성에스디에스",code:"018260"},{name:"KT",code:"030200"}] },
+    { label:"데이터센터 : 코로케이션", stocks:[{name:"케이아이엔엑스",code:"093320"},{name:"가비아",code:"079940"},{name:"신세계 I&C",code:"035510"},{name:"롯데이노베이트",code:"286940"}] },
+    { label:"데이터센터 : 건설/EPC/부동산", stocks:[{name:"현대건설",code:"000720"},{name:"GS건설",code:"006360"},{name:"삼성E&A",code:"028050"},{name:"한미글로벌",code:"053690"}] },
+    { label:"데이터센터 : 전력/UPS/수배전", stocks:[{name:"HD현대일렉트릭",code:"267260"},{name:"효성중공업",code:"298040"},{name:"LS ELECTRIC",code:"010120"},{name:"지엔씨에너지",code:"119850"}] },
+    { label:"데이터센터 : 냉각/공조/액침냉각", stocks:[{name:"신성이엔지",code:"011930"},{name:"GST",code:"083450"},{name:"오텍",code:"078070"},{name:"케이엔솔",code:"255440"}] },
+    { label:"데이터센터 : 네트워크/스위치/라우터", stocks:[{name:"유비쿼스",code:"264450"},{name:"다산네트웍스",code:"039560"}] },
+    { label:"데이터센터 : 광통신/광모듈/광네트워크", stocks:[{name:"대한광통신",code:"010170"},{name:"오이솔루션",code:"138080"},{name:"라이트론",code:"069010"}] },
+    { label:"AI 인프라 후방 : PCB/MLCC/커넥터/케이블", stocks:[{name:"이수페타시스",code:"007660"},{name:"삼화콘덴서",code:"001820"},{name:"아비코전자",code:"036010"},{name:"우주일렉트로",code:"065680"},{name:"한국단자",code:"025540"},{name:"LS",code:"006260"},{name:"대한전선",code:"001440"}] },
+    { label:"원전·SMR : 발전원 (AI 전력 공급원)", stocks:[{name:"두산에너빌리티",code:"034020"},{name:"한전기술",code:"052690"},{name:"한전KPS",code:"051600"},{name:"우리기술",code:"032820"}] },
+    { label:"원전·SMR : 기자재/정비", stocks:[{name:"비에이치아이",code:"083650"},{name:"우진",code:"105840"},{name:"오르비텍",code:"046120"},{name:"보성파워텍",code:"006910"}] },
+    { label:"원전·SMR : 우라늄/핵연료", stocks:[{name:"일진파워",code:"094820"},{name:"에너토크",code:"019990"},{name:"우진엔텍",code:"457550"},{name:"수산인더스트리",code:"126720"}] },
+    { label:"AI 전력 인프라 : 에너지·DC 전력 지원", stocks:[{name:"지엔씨에너지",code:"119850"},{name:"파워넷",code:"037030"},{name:"솔루엠",code:"248070"},{name:"서진시스템",code:"178320"}] },
+    { label:"AI 전력 인프라 : 송전/배전/전력망", stocks:[{name:"LS",code:"006260"},{name:"대한전선",code:"001440"},{name:"일진전기",code:"103590"},{name:"제룡산업",code:"147830"}] },
+    { label:"AI 전력 인프라 : 변압기/전력기기", stocks:[{name:"HD현대일렉트릭",code:"267260"},{name:"효성중공업",code:"298040"},{name:"LS ELECTRIC",code:"010120"},{name:"산일전기",code:"062040"}] },
+    { label:"AI 전력 인프라 : 수배전반/배전반", stocks:[{name:"서전기전",code:"189860"},{name:"광명전기",code:"017040"},{name:"피앤씨테크",code:"237750"},{name:"제일일렉트릭",code:"199820"}] },
+    { label:"AI 전력 인프라 : ESS/에너지 저장", stocks:[{name:"삼성SDI",code:"006400"},{name:"LG에너지솔루션",code:"373220"},{name:"한중엔시에스",code:"107640"},{name:"SK이터닉스",code:"475150"}] },
+    { label:"AI 전력 인프라 : 에너지 운영/전력관리", stocks:[{name:"한국전력",code:"015760"},{name:"한전산업",code:"130660"},{name:"누리플렉스",code:"040160"},{name:"옴니시스템",code:"057540"}] },
+  ]},
+  { id:2, title:"AI SW / AI HW / Physical AI", desc:"PLATFORM · AGENT · EDGE · ROBOT · AUTONOMOUS", groups:[
+    { label:"AI SW : 대기업 AI", stocks:[{name:"NAVER",code:"035420"},{name:"카카오",code:"035720"},{name:"삼성에스디에스",code:"018260"},{name:"SK텔레콤",code:"017670"}] },
+    { label:"AI SW : 플랫폼 AI", stocks:[{name:"더존비즈온",code:"012510"},{name:"한글과컴퓨터",code:"030520"},{name:"폴라리스오피스",code:"041020"},{name:"이스트소프트",code:"047560"}] },
+    { label:"AI SW : Agent/업무형 AI", stocks:[{name:"한글과컴퓨터",code:"030520"},{name:"폴라리스오피스",code:"041020"},{name:"솔트룩스",code:"304100"},{name:"마음AI",code:"377480"}] },
+    { label:"AI SW : 데이터/RAG/검색", stocks:[{name:"솔트룩스",code:"304100"},{name:"코난테크놀로지",code:"402030"},{name:"바이브컴퍼니",code:"301300"},{name:"플리토",code:"300080"}] },
+    { label:"AI SW : 보안형 AI", stocks:[{name:"안랩",code:"053800"},{name:"지니언스",code:"263860"},{name:"라온시큐어",code:"042510"},{name:"드림시큐리티",code:"203650"}] },
+    { label:"AI SW : 클라우드/IT서비스/컨설팅", stocks:[{name:"삼성에스디에스",code:"018260"},{name:"롯데이노베이트",code:"286940"},{name:"신세계 I&C",code:"035510"},{name:"더존비즈온",code:"012510"}] },
+    { label:"AI SW : 광고/마케팅/CRM AI", stocks:[{name:"와이즈버즈",code:"273060"},{name:"플레이디",code:"237820"},{name:"나스미디어",code:"089600"},{name:"이엠넷",code:"123570"}] },
+    { label:"AI SW : 콜센터/BPO 자동화", stocks:[{name:"브리지텍",code:"064480"},{name:"셀바스AI",code:"108860"},{name:"마음AI",code:"377480"},{name:"솔트룩스",code:"304100"}] },
+    { label:"AI HW : 온디바이스 AI", stocks:[{name:"제주반도체",code:"080220"},{name:"텔레칩스",code:"054450"},{name:"칩스앤미디어",code:"094360"},{name:"오픈엣지테크놀로지",code:"394280"}] },
+    { label:"AI HW : AI 센서/인식 HW", stocks:[{name:"LG이노텍",code:"011070"},{name:"아이쓰리시스템",code:"214430"},{name:"퓨런티어",code:"370090"},{name:"픽셀플러스",code:"087600"}] },
+    { label:"AI HW : 엣지 AI 장비", stocks:[{name:"텔레칩스",code:"054450"},{name:"가온칩스",code:"399720"},{name:"에이디테크놀로지",code:"200710"},{name:"코아시아",code:"045970"}] },
+    { label:"Physical AI : 로봇 부품/구동계", stocks:[{name:"에스피지",code:"058610"},{name:"에스비비테크",code:"389500"},{name:"하이젠알앤엠",code:"160190"},{name:"우림피티에스",code:"101170"}] },
+    { label:"Physical AI : 완성 로봇", stocks:[{name:"레인보우로보틱스",code:"277810"},{name:"두산로보틱스",code:"454910"},{name:"로보티즈",code:"108490"},{name:"유진로봇",code:"056080"}] },
+    { label:"Physical AI : 휴머노이드", stocks:[{name:"레인보우로보틱스",code:"277810"},{name:"로보티즈",code:"108490"},{name:"에스피지",code:"058610"},{name:"에스비비테크",code:"389500"}] },
+    { label:"Physical AI : 산업용 로봇/협동로봇", stocks:[{name:"두산로보틱스",code:"454910"},{name:"뉴로메카",code:"348340"},{name:"티로보틱스",code:"117730"},{name:"로보스타",code:"090360"}] },
+    { label:"Physical AI : 물류로봇/AMR/AGV", stocks:[{name:"티로보틱스",code:"117730"},{name:"유진로봇",code:"056080"},{name:"로보티즈",code:"108490"},{name:"현대무벡스",code:"319400"}] },
+    { label:"Physical AI : 자율주행/SDV/전장", stocks:[{name:"현대오토에버",code:"307950"},{name:"HL만도",code:"204320"},{name:"LG이노텍",code:"011070"},{name:"텔레칩스",code:"054450"}] },
+    { label:"Physical AI : 스마트팩토리/머신비전", stocks:[{name:"고영",code:"098460"},{name:"라온테크",code:"232680"},{name:"에스엠코어",code:"007820"},{name:"코닉오토메이션",code:"391710"}] },
+    { label:"Physical AI : 의료/특수 AI 디바이스", stocks:[{name:"큐렉소",code:"060280"},{name:"미래컴퍼니",code:"049950"},{name:"뷰노",code:"338220"},{name:"코어라인소프트",code:"384470"}] },
+  ]},
+  { id:3, title:"유동성 초입 / 확산", desc:"LIQUIDITY ENTRY · CYCLICALS · INDUSTRIALS", groups:[
+    { label:"유동성 초입 : 증권", stocks:[{name:"키움증권",code:"039490"},{name:"한국금융지주",code:"071050"},{name:"미래에셋증권",code:"006800"},{name:"NH투자증권",code:"005940"}] },
+    { label:"유동성 초입 : 은행", stocks:[{name:"KB금융",code:"105560"},{name:"하나금융지주",code:"086790"},{name:"신한지주",code:"055550"},{name:"우리금융지주",code:"316140"}] },
+    { label:"유동성 초입 : 건설", stocks:[{name:"현대건설",code:"000720"},{name:"삼성E&A",code:"028050"},{name:"DL이앤씨",code:"375500"},{name:"GS건설",code:"006360"}] },
+    { label:"유동성 확산 : 산업재", stocks:[{name:"HD현대일렉트릭",code:"267260"},{name:"LS ELECTRIC",code:"010120"},{name:"두산에너빌리티",code:"034020"},{name:"현대로템",code:"064350"}] },
+    { label:"유동성 확산 : 조선/중공업", stocks:[{name:"HD한국조선해양",code:"009540"},{name:"HD현대중공업",code:"329180"},{name:"한화오션",code:"042660"},{name:"삼성중공업",code:"010140"}] },
+    { label:"유동성 확산 : 소재", stocks:[{name:"POSCO홀딩스",code:"005490"},{name:"LG화학",code:"051910"},{name:"고려아연",code:"010130"},{name:"풍산",code:"103140"}] },
+    { label:"유동성 확산 : 자동차", stocks:[{name:"현대차",code:"005380"},{name:"기아",code:"000270"},{name:"현대모비스",code:"012330"},{name:"HL만도",code:"204320"}] },
+    { label:"유동성 확산 : 운송/물류", stocks:[{name:"대한항공",code:"003490"},{name:"HMM",code:"011200"},{name:"CJ대한통운",code:"000120"},{name:"팬오션",code:"028670"}] },
+    { label:"유동성 확산 : 게임/인터넷", stocks:[{name:"NAVER",code:"035420"},{name:"카카오",code:"035720"},{name:"크래프톤",code:"259960"},{name:"엔씨소프트",code:"036570"}] },
+  ]},
+  { id:4, title:"유동성 후반 / 소비·방어", desc:"LATE LIQUIDITY · CONSUMER · DEFENSIVE", groups:[
+    { label:"유동성 후반 : 엔터/미디어", stocks:[{name:"하이브",code:"352820"},{name:"JYP Ent.",code:"035900"},{name:"에스엠",code:"041510"},{name:"CJ ENM",code:"035760"}] },
+    { label:"유동성 후반 : 화장품", stocks:[{name:"아모레퍼시픽",code:"090430"},{name:"LG생활건강",code:"051900"},{name:"코스맥스",code:"192820"},{name:"한국콜마",code:"161890"}] },
+    { label:"유동성 후반 : 유통/백화점", stocks:[{name:"신세계",code:"004170"},{name:"현대백화점",code:"069960"},{name:"롯데쇼핑",code:"023530"},{name:"이마트",code:"139480"}] },
+    { label:"유동성 후반 : 여행/레저", stocks:[{name:"하나투어",code:"039130"},{name:"모두투어",code:"080160"},{name:"파라다이스",code:"034230"},{name:"강원랜드",code:"035250"}] },
+    { label:"유동성 후반 : 호텔/면세", stocks:[{name:"호텔신라",code:"008770"},{name:"롯데관광개발",code:"032350"},{name:"글로벌텍스프리",code:"204620"},{name:"JTC",code:"950170"}] },
+    { label:"유동성 방어 : 필수소비재", stocks:[{name:"CJ제일제당",code:"097950"},{name:"오리온",code:"271560"},{name:"농심",code:"004370"},{name:"대상",code:"001680"}] },
+    { label:"유동성 방어 : 통신", stocks:[{name:"SK텔레콤",code:"017670"},{name:"KT",code:"030200"},{name:"LG유플러스",code:"032640"},{name:"스카이라이프",code:"053210"}] },
+    { label:"유동성 방어 : 보험", stocks:[{name:"삼성화재",code:"000810"},{name:"DB손해보험",code:"005830"},{name:"현대해상",code:"001450"},{name:"삼성생명",code:"032830"}] },
+    { label:"유동성 방어 : 고배당/인컴", stocks:[{name:"맥쿼리인프라",code:"088980"},{name:"KT&G",code:"033780"},{name:"삼성카드",code:"029780"},{name:"기업은행",code:"024110"}] },
+  ]},
+  { id:5, title:"지정학 : 방산 / 에너지 / 원자재", desc:"INDEPENDENT THEME · GEOPOLITICS · DEFENSE · ENERGY · MATERIALS", groups:[
+    { label:"방산 : 플랫폼", stocks:[{name:"한화에어로스페이스",code:"012450"},{name:"현대로템",code:"064350"},{name:"한국항공우주",code:"047810"},{name:"한화오션",code:"042660"}] },
+    { label:"방산 : 무기체계/탄약/유도무기", stocks:[{name:"LIG넥스원",code:"079550"},{name:"풍산",code:"103140"},{name:"SNT다이내믹스",code:"003570"},{name:"한일단조",code:"024740"}] },
+    { label:"방산 : 감시/탐지/지휘통제", stocks:[{name:"한화시스템",code:"272210"},{name:"휴니드",code:"005870"},{name:"빅텍",code:"065450"},{name:"퍼스텍",code:"010820"}] },
+    { label:"방산 : 소모성/반복 생산", stocks:[{name:"스페코",code:"013810"},{name:"웨이브일렉트로",code:"095270"},{name:"코츠테크놀로지",code:"448710"},{name:"대성하이텍",code:"129920"}] },
+    { label:"방산 : 후방 지원/유지보수", stocks:[{name:"STX엔진",code:"077970"},{name:"한화엔진",code:"082740"},{name:"현대위아",code:"011210"},{name:"제노코",code:"361390"}] },
+    { label:"방산 : 항공우주/위성/전자전", stocks:[{name:"쎄트렉아이",code:"099320"},{name:"AP위성",code:"211270"},{name:"컨텍",code:"451760"},{name:"켄코아에어로스페이스",code:"274090"}] },
+    { label:"에너지 : 가스발전/LNG", stocks:[{name:"한국가스공사",code:"036460"},{name:"포스코인터내셔널",code:"047050"},{name:"SK가스",code:"018670"},{name:"E1",code:"017940"}] },
+    { label:"에너지 : 태양광", stocks:[{name:"한화솔루션",code:"009830"},{name:"OCI홀딩스",code:"010060"},{name:"HD현대에너지솔루션",code:"322000"},{name:"SDN",code:"099220"}] },
+    { label:"에너지 : 풍력", stocks:[{name:"씨에스윈드",code:"112610"},{name:"SK오션플랜트",code:"100090"},{name:"씨에스베어링",code:"297090"},{name:"유니슨",code:"018000"}] },
+    { label:"원자재 : 인프라 핵심 금속", stocks:[{name:"고려아연",code:"010130"},{name:"POSCO홀딩스",code:"005490"},{name:"KBI메탈",code:"024840"},{name:"이구산업",code:"025820"}] },
+    { label:"원자재 : 원전/에너지 핵심 자원", stocks:[{name:"S-Oil",code:"010950"},{name:"SK이노베이션",code:"096770"},{name:"한국석유",code:"004090"},{name:"흥구석유",code:"024060"}] },
+    { label:"원자재 : 방산/항공우주 핵심 소재", stocks:[{name:"한국카본",code:"017960"},{name:"아스트",code:"067390"},{name:"하이즈항공",code:"221840"},{name:"대양전기공업",code:"108380"}] },
+    { label:"원자재 : 희소/전략 광물", stocks:[{name:"에코프로머티",code:"450080"},{name:"LX인터내셔널",code:"001120"},{name:"STX",code:"011810"},{name:"포스코엠텍",code:"009520"}] },
+  ]},
+  { id:6, title:"바이오 : 의료기기 / 신약 / 치료제", desc:"BIOTECH · MEDTECH · THERAPEUTICS · CDMO", groups:[
+    { label:"AI 바이오 : 신약개발 플랫폼/단백질 설계", stocks:[{name:"신테카바이오",code:"226330"},{name:"파로스아이바이오",code:"388870"}] },
+    { label:"AI 바이오 : 임상 데이터/디지털 병리", stocks:[{name:"노을",code:"376930"}] },
+    { label:"AI 바이오 : 정밀의료/유전체 해석", stocks:[{name:"마크로젠",code:"038290"}] },
+    { label:"혁신 치료제 : 항체", stocks:[{name:"알테오젠",code:"196170"},{name:"에이비엘바이오",code:"298380"}] },
+    { label:"혁신 치료제 : ADC/항암", stocks:[{name:"리가켐바이오",code:"141080"},{name:"에이비엘바이오",code:"298380"}] },
+    { label:"혁신 치료제 : 비만/대사", stocks:[{name:"한미약품",code:"128940"},{name:"펩트론",code:"087010"}] },
+    { label:"혁신 치료제 : 면역질환/자가면역", stocks:[{name:"셀트리온",code:"068270"},{name:"한올바이오파마",code:"009420"}] },
+    { label:"혁신 치료제 : 희귀질환", stocks:[{name:"GC녹십자",code:"006280"},{name:"메지온",code:"140410"}] },
+    { label:"첨단치료제 : 세포치료제", stocks:[{name:"차바이오텍",code:"085660"},{name:"메디포스트",code:"078160"}] },
+    { label:"첨단치료제 : 유전자치료", stocks:[{name:"헬릭스미스",code:"084990"},{name:"진원생명과학",code:"011000"}] },
+    { label:"첨단치료제 : CRISPR 유전자편집", stocks:[{name:"툴젠",code:"199800"},{name:"마크로젠",code:"038290"}] },
+    { label:"첨단치료제 : CAR-T", stocks:[{name:"큐로셀",code:"372320"},{name:"앱클론",code:"174900"}] },
+    { label:"의료기기 : AI 진단/영상진단", stocks:[{name:"뷰노",code:"338220"},{name:"코어라인소프트",code:"384470"}] },
+    { label:"의료기기 : 수술로봇/특수 의료기기", stocks:[{name:"큐렉소",code:"060280"},{name:"미래컴퍼니",code:"049950"}] },
+    { label:"의료기기 : 디지털헬스/원격진료", stocks:[{name:"유비케어",code:"032620"},{name:"비트컴퓨터",code:"032850"}] },
+    { label:"바이오 제조/인프라 : CDMO/CMO/CRO", stocks:[{name:"삼성바이오로직스",code:"207940"},{name:"에스티팜",code:"237690"}] },
+    { label:"바이오 제조/인프라 : 약물전달기기 플랫폼", stocks:[{name:"펩트론",code:"087010"},{name:"인벤티지랩",code:"389470"}] },
+  ]},
+  { id:7, title:"신기술 : 블록체인 / 우주 / 양자", desc:"EMERGING TECH · BLOCKCHAIN · SPACE · QUANTUM", groups:[
+    { label:"블록체인 : 거래소/브로커리지", stocks:[{name:"우리기술투자",code:"041190"},{name:"한화투자증권",code:"003530"},{name:"컴투스홀딩스",code:"063080"}] },
+    { label:"블록체인 : 스테이블코인/결제 인프라", stocks:[{name:"다날",code:"064260"},{name:"NHN KCP",code:"060250"},{name:"헥토파이낸셜",code:"234340"},{name:"갤럭시아머니트리",code:"094480"}] },
+    { label:"블록체인 : STO/RWA/토큰화 증권", stocks:[{name:"핑거",code:"163730"},{name:"아이티센글로벌",code:"124500"},{name:"서울옥션",code:"063170"},{name:"케이옥션",code:"102370"}] },
+    { label:"블록체인 : 커스터디/보안/AML", stocks:[{name:"드림시큐리티",code:"203650"},{name:"한국정보인증",code:"053300"},{name:"라온시큐어",code:"042510"},{name:"케이사인",code:"192250"}] },
+    { label:"블록체인 : 온체인앱/Web3 서비스", stocks:[{name:"위메이드",code:"112040"},{name:"위메이드맥스",code:"101730"},{name:"미투온",code:"201490"},{name:"네오위즈홀딩스",code:"042420"}] },
+    { label:"양자 : 양자컴퓨팅", stocks:[{name:"SK텔레콤",code:"017670"},{name:"우리로",code:"046970"},{name:"큐에스아이",code:"066310"}] },
+    { label:"양자 : 양자암호통신", stocks:[{name:"드림시큐리티",code:"203650"},{name:"케이씨에스",code:"115500"},{name:"코위버",code:"056360"},{name:"엑스게이트",code:"356680"}] },
+    { label:"양자 : 양자센서/보안", stocks:[{name:"아이씨티케이",code:"456010"},{name:"라온시큐어",code:"042510"},{name:"파이오링크",code:"170790"},{name:"쏠리드",code:"050890"}] },
+    { label:"우주 : 발사체/발사 인프라", stocks:[{name:"한화에어로스페이스",code:"012450"},{name:"이노스페이스",code:"462350"},{name:"한국항공우주",code:"047810"},{name:"비츠로테크",code:"042370"}] },
+    { label:"우주 : 위성체/플랫폼/탑재체", stocks:[{name:"쎄트렉아이",code:"099320"},{name:"AP위성",code:"211270"},{name:"루미르",code:"474170"},{name:"아이쓰리시스템",code:"214430"}] },
+    { label:"우주 : 지상국/데이터 처리/서비스", stocks:[{name:"컨텍",code:"451760"},{name:"인텔리안테크",code:"189300"},{name:"제노코",code:"361390"},{name:"나라스페이스테크놀로지",code:"478370"}] },
+    { label:"우주 : 지구관측/SAR/GEOINT", stocks:[{name:"한화시스템",code:"272210"},{name:"켄코아에어로스페이스",code:"274090"},{name:"하이즈항공",code:"221840"},{name:"아스트",code:"067390"}] },
+    { label:"우주 : 위성통신/저궤도/위성인터넷", stocks:[{name:"이노와이어리스",code:"073490"},{name:"쏠리드",code:"050890"},{name:"옵티코어",code:"380540"},{name:"코위버",code:"056360"}] },
+  ]},
+  { id:8, title:"미국 주식 사이클", desc:"US MARKET · GLOBAL LEADERS · AI / DEFENSE / ENERGY / BIO", groups:[
+    { label:"US : AI 인프라", stocks:[{name:"NVIDIA",code:"NVDA",us:true},{name:"Broadcom",code:"AVGO",us:true},{name:"Marvell Technology",code:"MRVL",us:true},{name:"AMD",code:"AMD",us:true}] },
+    { label:"US : 데이터센터/클라우드", stocks:[{name:"Microsoft",code:"MSFT",us:true},{name:"Amazon",code:"AMZN",us:true},{name:"Oracle",code:"ORCL",us:true}] },
+    { label:"US : 전력 에너지 인프라", stocks:[{name:"Eaton",code:"ETN",us:true},{name:"GE Vernova",code:"GEV",us:true},{name:"Vertiv",code:"VRT",us:true},{name:"Constellation Energy",code:"CEG",us:true},{name:"Vistra",code:"VST",us:true}] },
+    { label:"US : 원자재", stocks:[{name:"Freeport-McMoRan",code:"FCX",us:true},{name:"Cameco",code:"CCJ",us:true},{name:"Albemarle",code:"ALB",us:true}] },
+    { label:"US : 방산", stocks:[{name:"Lockheed Martin",code:"LMT",us:true},{name:"Northrop Grumman",code:"NOC",us:true},{name:"RTX",code:"RTX",us:true}] },
+    { label:"US : 우주", stocks:[{name:"Rocket Lab",code:"RKLB",us:true},{name:"Intuitive Machines",code:"LUNR",us:true},{name:"AST SpaceMobile",code:"ASTS",us:true}] },
+    { label:"US : AI 적용 플랫폼", stocks:[{name:"Palantir",code:"PLTR",us:true},{name:"Salesforce",code:"CRM",us:true},{name:"Adobe",code:"ADBE",us:true}] },
+    { label:"US : 보안", stocks:[{name:"Palo Alto Networks",code:"PANW",us:true},{name:"CrowdStrike",code:"CRWD",us:true},{name:"Zscaler",code:"ZS",us:true}] },
+    { label:"US : 양자", stocks:[{name:"IonQ",code:"IONQ",us:true},{name:"Rigetti Computing",code:"RGTI",us:true},{name:"D-Wave Quantum",code:"QBTS",us:true}] },
+    { label:"US : Physical AI/자율주행/로봇", stocks:[{name:"Tesla",code:"TSLA",us:true},{name:"Rockwell Automation",code:"ROK",us:true},{name:"Teradyne",code:"TER",us:true},{name:"Symbotic",code:"SYM",us:true}] },
+    { label:"US : 소비/플랫폼", stocks:[{name:"Meta Platforms",code:"META",us:true},{name:"Alphabet",code:"GOOGL",us:true},{name:"Netflix",code:"NFLX",us:true}] },
+    { label:"US : 크립토", stocks:[{name:"Coinbase",code:"COIN",us:true},{name:"Strategy / MicroStrategy",code:"MSTR",us:true},{name:"Robinhood",code:"HOOD",us:true}] },
+    { label:"US : 바이오", stocks:[{name:"Eli Lilly",code:"LLY",us:true},{name:"Vertex Pharmaceuticals",code:"VRTX",us:true},{name:"Amgen",code:"AMGN",us:true}] },
+    { label:"US : 경기민감/금융/산업재", stocks:[{name:"JPMorgan Chase",code:"JPM",us:true},{name:"Caterpillar",code:"CAT",us:true},{name:"GE Aerospace",code:"GE",us:true}] },
+  ]},
+];
+
+// ── BUILD ──
+const main = document.getElementById('main');
+let currentSec = 0;
+
+function buildSections() {
+  main.innerHTML = '';
+  DATA.forEach(sec => {
+    const ci = CYCLE_INFO[sec.id];
+    const div = document.createElement('div');
+    div.className = `section sec-${sec.id}`;
+    div.dataset.sec = sec.id;
+
+    // 종목 카운트 + A급 카운트
+    let totalStocks = 0;
+    let aStocks = 0;
+    sec.groups.forEach(g => {
+      g.stocks.forEach(s => {
+        totalStocks++;
+        if (A_GRADE.has(s.code)) aStocks++;
+      });
+    });
+
+    div.innerHTML = `
+      <div class="section-header" onclick="toggleSection(${sec.id})">
+        <div class="sec-accent"></div>
+        <div class="sec-header-body">
+          <div class="sec-header-top">
+            <div class="sec-num">${String(sec.id).padStart(2,'0')}</div>
+            <div class="sec-title-block">
+              <h2>
+                ${sec.title}
+                <span class="sec-counts">
+                  <span class="sec-count-pill">테마<span class="num">${sec.groups.length}</span></span>
+                  <span class="sec-count-pill">종목<span class="num">${totalStocks}</span></span>
+                  <span class="sec-count-pill a-grade">A급<span class="num">${aStocks}</span></span>
+                </span>
+              </h2>
+              <div class="sec-eng">${sec.desc}</div>
+            </div>
+          </div>
+          <div class="cycle-timing">
+            <div class="timing-chip">
+              <div class="t-label">사이클 구간</div>
+              <div class="t-val">${ci.period}</div>
+            </div>
+            <div class="timing-chip">
+              <div class="t-label">현재 상태</div>
+              <div class="t-val">${ci.status}</div>
+            </div>
+            <div class="timing-chip">
+              <div class="t-label">핵심 병목</div>
+              <div class="t-val"><span class="bottleneck-tag" style="color:${ci.bottleneckColor};border-color:${ci.bottleneckColor}">${ci.bottleneck}</span></div>
+            </div>
+            <div class="timing-chip" style="flex:1;min-width:160px;">
+              <div class="t-label">설명</div>
+              <div class="t-val" style="font-weight:400;font-size:11px;color:var(--muted);line-height:1.5;">${ci.desc}</div>
+            </div>
+          </div>
+        </div>
+        <div class="sec-collapse">▼</div>
+      </div>
+      <div class="groups" id="groups-${sec.id}">
+        ${sec.groups.map(g => buildGroup(g)).join('')}
+      </div>
+    `;
+    main.appendChild(div);
+  });
+  updateVisibility();
+  updateStats();
+}
+
+function buildGroup(g) {
+  const total = g.stocks.length;
+  const aCount = g.stocks.filter(s => A_GRADE.has(s.code)).length;
+  const countHTML = aCount > 0
+    ? `<span class="group-count">${total}<span class="a-num"> · A ${aCount}</span></span>`
+    : `<span class="group-count">${total}</span>`;
+  return `
+    <div class="group" data-label="${g.label.toLowerCase()}">
+      <div class="group-label">
+        <span class="group-label-text">${g.label}</span>
+        ${countHTML}
+      </div>
+      <div class="stocks">
+        ${g.stocks.map(s => {
+          const isA = A_GRADE.has(s.code);
+          return `
+          <div class="stock ${s.us?'us':''} ${isA?'grade-a':''}" data-name="${s.name.toLowerCase()}" data-code="${s.code.toLowerCase()}">
+            <span class="stock-name">${s.name}</span>
+            <span class="stock-code">${s.code}</span>
+          </div>
+        `}).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function toggleSection(id) {
+  document.querySelector(`.section[data-sec="${id}"]`).classList.toggle('collapsed');
+}
+
+function updateVisibility() {
+  document.querySelectorAll('.section').forEach(sec => {
+    const sid = parseInt(sec.dataset.sec);
+    sec.classList.toggle('visible', currentSec === 0 || currentSec === sid);
+  });
+}
+
+function updateStats() {
+  let total=0,kr=0,us=0,groups=0,aGrade=0;
+  DATA.forEach(s=>s.groups.forEach(g=>{groups++;g.stocks.forEach(st=>{total++;st.us?us++:kr++;if(A_GRADE.has(st.code))aGrade++;})}));
+  document.getElementById('totalCount').textContent=total;
+  document.getElementById('totalGroups').textContent=groups;
+  document.getElementById('totalAGrade').textContent=aGrade;
+  document.getElementById('krCount').textContent=kr;
+  document.getElementById('usCount').textContent=us;
+}
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    currentSec = parseInt(tab.dataset.sec);
+    updateVisibility();
+  });
+});
+
+function openSignal() {
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('signalPanel').classList.add('open');
+}
+function closeSignal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('signalPanel').classList.remove('open');
+}
+
+buildSections();
+</script>
+</body>
+</html>
