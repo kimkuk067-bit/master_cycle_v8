@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KOSPI · 나스닥 하락 다이버전스 — 2026.05</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    background: #f7f7f5;
+    color: #1a1a1a;
+    padding: 2rem 1.5rem;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 3px; letter-spacing: 0.01em; }
+  .sub { font-size: 12px; color: #999; margin-bottom: 1.75rem; }
+  .section-label { font-size: 12px; font-weight: 600; color: #444; letter-spacing: 0.03em; margin: 0 0 2px; }
+  .section-note  { font-size: 11px; color: #aaa; margin: 0 0 8px; }
+  .chart-wrap { background: #fff; border: 1px solid #ececea; border-radius: 10px; padding: 14px 12px 10px; }
+  .inner-chart { position: relative; width: 100%; }
+  .legend { display: flex; gap: 16px; margin: 10px 0 0; font-size: 11px; color: #888; flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .lbox { width: 16px; height: 2px; display: inline-block; border-radius: 1px; }
+  .ldash { width: 14px; height: 0; display: inline-block; }
+  .divider { border: none; border-top: 1px solid #e8e8e6; margin: 1.75rem 0; }
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 0.5rem; }
+  .pill { background: #fff0f0; border: 1px solid #ffd0d0; border-radius: 6px; padding: 5px 12px; font-size: 12px; color: #c0392b; }
+  .note { font-size: 11px; color: #bbb; margin-top: 1.5rem; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<h1>KOSPI · 나스닥 하락 다이버전스 분석</h1>
+<p class="sub">2026년 5월 기준 — CycleLog</p>
+
+<p class="section-label">① KOSPI 주봉 — 가격 고점 경신 vs RSI 낮은 고점</p>
+<p class="section-note">2026.02 ~ 05 (근사치 기반)</p>
+
+<div class="chart-wrap">
+  <div class="inner-chart" style="height:180px;">
+    <canvas id="kospiPrice" role="img" aria-label="KOSPI 주봉 가격 차트. ATH 6937 기록 후 5월 6600대 하락">KOSPI 가격</canvas>
+  </div>
+  <div class="inner-chart" style="height:115px; margin-top:4px;">
+    <canvas id="kospiRsi" role="img" aria-label="KOSPI RSI. ATH에서 RSI 77→73 하락 — 하락 다이버전스">KOSPI RSI</canvas>
+  </div>
+</div>
+
+<div class="legend">
+  <span><span class="lbox" style="background:#2563EB;"></span>가격</span>
+  <span><span class="lbox" style="background:#059669;"></span>RSI (14)</span>
+  <span><span class="ldash" style="border-top:2px dashed #DC2626;"></span>다이버전스선 (가격↑ · RSI↓)</span>
+  <span><span class="ldash" style="border-top:1px dashed rgba(220,38,38,0.4);"></span>RSI 70 과매수</span>
+</div>
+
+<hr class="divider">
+
+<p class="section-label">② 선행 지표 다이버전스 — NVIDIA vs 나스닥 (4/1 = 100 기준)</p>
+<p class="section-note">AI 핵심주 NVIDIA가 ATH 이후 이탈 중 / 나스닥은 아직 고점 근처</p>
+
+<div class="chart-wrap">
+  <div class="inner-chart" style="height:200px;">
+    <canvas id="leadingChart" role="img" aria-label="NVIDIA 4/27 ATH +27% 후 현재 +17%로 후퇴. 나스닥은 +5% 수준 유지">NVIDIA vs 나스닥</canvas>
+  </div>
+</div>
+
+<div class="legend">
+  <span><span class="lbox" style="background:#7C3AED;"></span>NVIDIA (NVDA)</span>
+  <span><span class="ldash" style="border-top:2px dashed #9CA3AF;"></span>나스닥 종합</span>
+</div>
+
+<hr class="divider">
+
+<p class="section-label" style="margin-bottom:8px;">조정 트리거 이벤트</p>
+<div class="pills">
+  <div class="pill">5/12 미국 CPI 발표</div>
+  <div class="pill">5/15 Warsh 취임</div>
+</div>
+
+<p class="note">※ 가격·RSI 수치는 실제 시장 데이터 기반 근사치이며 투자 조언이 아닙니다.</p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const textClr = 'rgba(0,0,0,0.32)';
+const gridClr = 'rgba(0,0,0,0.06)';
+Chart.defaults.font.size = 11;
+
+const wkLabels = ['2/2','2/9','2/16','2/23','3/2','3/9','3/16','3/23','3/30','4/6','4/13','4/20','4/27','5/5'];
+const kPrice   = [5000,5200,5500,5700,5300,5600,5900,6100,6400,6600,6800,6937,6700,6600];
+const kRsi     = [62,65,70,73,60,65,68,70,74,76,77,73,70,68];
+const pDiv     = wkLabels.map((_,i)=>i===10?6800:i===11?6937:null);
+const rDiv     = wkLabels.map((_,i)=>i===10?77:i===11?73:null);
+const divRad   = wkLabels.map((_,i)=>(i===10||i===11)?5:0);
+
+const annotPlugin = {
+  id:'ann',
+  afterDraw(chart){
+    const {ctx}=chart;
+    ctx.save();
+    ctx.font='500 11px -apple-system,sans-serif';
+    ctx.textBaseline='bottom';
+    if(chart.canvas.id==='kospiPrice'){
+      const pt=chart.getDatasetMeta(0).data[11];
+      if(pt){ctx.fillStyle='#DC2626';ctx.textAlign='center';ctx.fillText('ATH 6,937',pt.x,pt.y-6);}
+    }
+    if(chart.canvas.id==='kospiRsi'){
+      const m=chart.getDatasetMeta(1);
+      const p10=m.data[10],p11=m.data[11];
+      ctx.fillStyle='#DC2626';ctx.textAlign='center';
+      if(p10)ctx.fillText('RSI 77',p10.x,p10.y-6);
+      if(p11)ctx.fillText('RSI 73 ↓',p11.x,p11.y-6);
+    }
+    if(chart.canvas.id==='leadingChart'){
+      const m0=chart.getDatasetMeta(0),m1=chart.getDatasetMeta(1);
+      const peak=m0.data[4],curr=m0.data[5],nEnd=m1.data[5];
+      if(peak){ctx.fillStyle='#7C3AED';ctx.textAlign='center';ctx.fillText('ATH +27%',peak.x,peak.y-8);}
+      if(curr){ctx.fillStyle='#DC2626';ctx.textAlign='right';ctx.fillText('현재 +17%',curr.x-2,curr.y-8);}
+      if(nEnd){ctx.fillStyle='rgba(0,0,0,0.32)';ctx.textAlign='right';ctx.textBaseline='top';ctx.fillText('나스닥 +5%',nEnd.x,nEnd.y+4);}
+    }
+    ctx.restore();
+  }
+};
+Chart.register(annotPlugin);
+
+const noPlugin={legend:{display:false},tooltip:{enabled:false}};
+const xSc={grid:{color:gridClr},border:{display:false},ticks:{color:textClr,maxRotation:0,autoSkip:true,maxTicksLimit:8}};
+const ySc={grid:{color:gridClr},border:{display:false},ticks:{color:textClr}};
+
+new Chart(document.getElementById('kospiPrice'),{
+  type:'line',
+  data:{labels:wkLabels,datasets:[
+    {data:kPrice,borderColor:'#2563EB',borderWidth:2,pointRadius:0,tension:0.35,fill:false},
+    {data:pDiv,borderColor:'#DC2626',borderWidth:2,borderDash:[5,4],pointRadius:divRad,pointBackgroundColor:'#DC2626',pointBorderColor:'#DC2626',tension:0,fill:false,spanGaps:false}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:noPlugin,
+    scales:{x:xSc,y:{...ySc,min:4700,max:7500,ticks:{color:textClr,callback:v=>(v/1000).toFixed(1)+'K'}}}}
+});
+
+new Chart(document.getElementById('kospiRsi'),{
+  type:'line',
+  data:{labels:wkLabels,datasets:[
+    {data:wkLabels.map(()=>70),borderColor:'rgba(220,38,38,0.3)',borderWidth:1,borderDash:[3,3],pointRadius:0,fill:false},
+    {data:kRsi,borderColor:'#059669',borderWidth:2,pointRadius:0,tension:0.35,fill:false},
+    {data:rDiv,borderColor:'#DC2626',borderWidth:2,borderDash:[5,4],pointRadius:divRad,pointBackgroundColor:'#DC2626',pointBorderColor:'#DC2626',tension:0,fill:false,spanGaps:false}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:noPlugin,
+    scales:{x:xSc,y:{...ySc,min:45,max:90,ticks:{color:textClr}}}}
+});
+
+new Chart(document.getElementById('leadingChart'),{
+  type:'line',
+  data:{labels:['4/1','4/7','4/14','4/21','4/27','5/5'],datasets:[
+    {data:[100,104,109,117,127,117],borderColor:'#7C3AED',borderWidth:2.5,tension:0.3,fill:false,
+     pointRadius:[0,0,0,0,6,4],
+     pointBackgroundColor:['#7C3AED','#7C3AED','#7C3AED','#7C3AED','#DC2626','#7C3AED'],
+     pointBorderColor:['#7C3AED','#7C3AED','#7C3AED','#7C3AED','#DC2626','#7C3AED']},
+    {data:[100,100,102,104,106,105],borderColor:'#9CA3AF',borderWidth:1.5,borderDash:[6,4],pointRadius:0,tension:0.3,fill:false}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:noPlugin,
+    scales:{x:{grid:{color:gridClr},border:{display:false},ticks:{color:textClr}},
+            y:{...ySc,min:95,max:135,ticks:{color:textClr,callback:v=>v.toFixed(0)}}}}
+});
+</script>
+</body>
+</html>
